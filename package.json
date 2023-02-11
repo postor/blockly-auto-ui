@@ -11,7 +11,10 @@
   "keywords": [],
   "author": "",
   "dependencies": {
-    "@shack-js/cli": "^1.1.7"
+    "@fontsource/roboto": "^4.5.8",
+    "@mui/icons-material": "^5.11.0",
+    "@shack-js/cli": "^1.1.7",
+    "lowdb": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
@@ -19,6 +22,9 @@
     "@babel/preset-env": "^7.19.4",
     "@babel/preset-react": "^7.18.6",
     "@babel/preset-typescript": "^7.18.6",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
+    "@mui/material": "^5.11.8",
     "@shack-js/auto-routes-loader": "^1.0.15",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",

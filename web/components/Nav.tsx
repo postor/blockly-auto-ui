@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom"
 
-const links = [{ children: 'Home', to: '/' }, { children: 'About', to: '/about' }, { children: 'Posts', to: '/posts' }]
+const links = [
+  { children: 'Home', to: '/' },
+  { children: 'About', to: '/about' },
+]
 
 export default function Nav() {
   return <nav>
