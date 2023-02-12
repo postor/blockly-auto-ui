@@ -1,6 +1,7 @@
 import { Container, Typography } from "@mui/material"
 import { useSearchParams } from "react-router-dom"
 import { BlocklyWorkspace } from 'react-blockly'
+import Blockly from 'blockly'
 import { useState } from "react"
 import '../../../utils/blockly-editor-custom-blocks'
 
@@ -8,6 +9,7 @@ export default () => {
   let [searchParams] = useSearchParams()
   let device = searchParams.get('device')
   let [xml, setXml] = useState('')
+  let [js, setJS] = useState('')
   return <Container>
     <Typography variant="h2" component="h1" gutterBottom>
       {device}
@@ -26,10 +28,16 @@ export default () => {
       }}
       initialXml={xml}
       onXmlChange={setXml}
+      onWorkspaceChange={(workspace) => {
+        const code = Blockly.JavaScript.workspaceToCode(workspace);
+        setJS(code);
+      }}
     />
-
+    <pre>{js}</pre>
   </Container>
 }
+
+
 
 function getToolBoxCfg() {
   return {
@@ -387,13 +395,6 @@ function getToolBoxCfg() {
         name: 'Functions',
       },
       {
-        kind: 'CATEGORY',
-        id: 'catFunctions',
-        colour: '290',
-        custom: 'PROCEDURE',
-        name: 'Functions',
-      },
-      {
         kind: "category",
         name: "Custom",
         colour: "290",
@@ -401,6 +402,9 @@ function getToolBoxCfg() {
           {
             kind: "block",
             type: "print",
+          },{
+            kind: "block",
+            type: "start_pkg",
           },
         ],
       },
