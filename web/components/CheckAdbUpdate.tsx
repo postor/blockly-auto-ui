@@ -42,7 +42,7 @@ export const CheckAdbUpdate = () => {
                     disablePadding
                     key={x}
                     component={Link}
-                    to={`/platform/android/edit?connect=${encodeURIComponent(x)}`}
+                    to={`/platform/android/edit?device=${encodeURIComponent(x)}`}
                   >
                     <ListItemButton >
                       <ListItemIcon>

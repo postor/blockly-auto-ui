@@ -13,8 +13,7 @@
   "dependencies": {
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
-    "@shack-js/cli": "^1.1.7",
-    "lowdb": "^5.1.0"
+    "@shack-js/cli": "^1.1.7"
   },
   "devDependencies": {
     "@babel/core": "^7.19.6",
@@ -31,6 +30,7 @@
     "babel-loader": "^8.2.5",
     "css-loader": "^6.7.2",
     "react": "^18.2.0",
+    "react-blockly":"^7.0.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.5",
     "style-loader": "^3.3.1",
