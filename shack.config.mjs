@@ -43,6 +43,9 @@ export default {
       },
     ]
   },
+  externals: {
+    blockly: 'Blockly'
+  },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".mjs", ".cjs"]
   },

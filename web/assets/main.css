@@ -2,3 +2,8 @@ nav {
   display: flex;
   column-gap: 20px;
 }
+
+.blockly-workspace {
+  width: 100%;
+  height: 500px;
+}

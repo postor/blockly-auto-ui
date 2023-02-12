@@ -29,11 +29,11 @@ export default function Layout() {
             : theme.palette.grey[800],
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <Nav />
       </Container>
     </Box>
-    <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="sm">
+    <Container component="main" sx={{ mt: 8, mb: 2 }} maxWidth="lg">
       <Outlet />
     </Container>
     <Box
@@ -48,7 +48,7 @@ export default function Layout() {
             : theme.palette.grey[800],
       }}
     >
-      <Container maxWidth="sm">
+      <Container maxWidth="lg">
         <Typography variant="body1">
           My sticky footer can be found here.
         </Typography>
