@@ -26,8 +26,16 @@ export const updateAdbTest = async (newAdbPath: string) => {
   }
 }
 
+export const loadCode = async () => {
+  return (await loadDB()).androidCode
+}
 
-
+export const updateCode = async (code: string) => {
+  await updateDB(data => ({
+    ...data,
+    androidCode: code
+  }))
+}
 
 function stdout2devices(stdout: string) {
   /** 
@@ -36,7 +44,7 @@ function stdout2devices(stdout: string) {
    * emulator-5554   device
    */
   let lines = stdout.split('\n')
-  let devices = lines.slice(1).filter(x => x.length)
+  let devices = lines.slice(1).filter(x => x.trim())
   let rtn = devices.map(x => x.split(/\s+/)[0])
   // console.log({ lines, devices, rtn })
   return rtn

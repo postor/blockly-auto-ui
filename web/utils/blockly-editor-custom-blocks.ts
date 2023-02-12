@@ -1,5 +1,15 @@
 import Blockly from 'blockly';
 
+export class FieldImageInput extends Blockly.FieldTextInput {
+  constructor(value, validator, config) {
+    super(value, validator, config);
+  }
+
+}
+
+Blockly.fieldRegistry.register('my_custom_text_field', FieldImageInput);
+
+
 Blockly.Blocks['print'] = {
   init: function () {
     this.appendDummyInput()

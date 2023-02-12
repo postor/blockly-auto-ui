@@ -1,38 +1,55 @@
-import { Container, Typography } from "@mui/material"
+import { CircularProgress, Container, Typography } from "@mui/material"
 import { useSearchParams } from "react-router-dom"
 import { BlocklyWorkspace } from 'react-blockly'
 import Blockly from 'blockly'
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import '../../../utils/blockly-editor-custom-blocks'
+import { loadCode, updateCode } from "../../../../apis/android/adb"
 
-export default () => {
+export const Edit = () => {
   let [searchParams] = useSearchParams()
   let device = searchParams.get('device')
   let [xml, setXml] = useState('')
   let [js, setJS] = useState('')
+  let [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    (async () => {
+      setXml(await loadCode())
+      setLoading(false)
+    })()
+  }, [])
+
+  let setXmlCb = useCallback((xml: string) => {
+    setXml(xml)
+    updateCode(xml)
+  }, [])
+
   return <Container>
     <Typography variant="h2" component="h1" gutterBottom>
       {device}
     </Typography>
-    <BlocklyWorkspace
-      className="blockly-workspace" // you can use whatever classes are appropriate for your app's CSS
-      toolboxConfiguration={getToolBoxCfg()} // this must be a JSON toolbox definition
+    {loading
+      ? <CircularProgress />
+      : <BlocklyWorkspace
+        className="blockly-workspace" // you can use whatever classes are appropriate for your app's CSS
+        toolboxConfiguration={getToolBoxCfg()} // this must be a JSON toolbox definition
 
-      workspaceConfiguration={{
-        grid: {
-          spacing: 20,
-          length: 3,
-          colour: "#ccc",
-          snap: true,
-        },
-      }}
-      initialXml={xml}
-      onXmlChange={setXml}
-      onWorkspaceChange={(workspace) => {
-        const code = Blockly.JavaScript.workspaceToCode(workspace);
-        setJS(code);
-      }}
-    />
+        workspaceConfiguration={{
+          grid: {
+            spacing: 20,
+            length: 3,
+            colour: "#ccc",
+            snap: true,
+          },
+        }}
+        initialXml={xml}
+        onXmlChange={setXmlCb}
+        onWorkspaceChange={(workspace) => {
+          const code = Blockly.JavaScript.workspaceToCode(workspace);
+          setJS(code);
+        }}
+      />}
     <pre>{js}</pre>
   </Container>
 }
@@ -402,7 +419,7 @@ function getToolBoxCfg() {
           {
             kind: "block",
             type: "print",
-          },{
+          }, {
             kind: "block",
             type: "start_pkg",
           },
@@ -413,3 +430,5 @@ function getToolBoxCfg() {
     style: 'display: none',
   };
 }
+
+export default Edit

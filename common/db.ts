@@ -5,11 +5,13 @@ import { readFile, writeFile } from 'fs/promises'
 type IData = {
   adbPath: string
   files: string[]
+  androidCode: string
 }
 
 const defaultData: IData = {
   adbPath: 'adb',
-  files: []
+  files: [],
+  androidCode: ''
 }
 
 let file = join(process.cwd(), 'database.json')

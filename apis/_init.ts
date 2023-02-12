@@ -10,7 +10,7 @@ interface Config {
   extension: string
 }
 
-export default async (app: Express, config: Config) => {
+export const afterInit = async (app: Express, config: Config) => {
   app.use('public', staticServe(join(process.cwd(), 'public')))
   app.use('*', (req, res) => res.sendFile(join(config.assetsFolder, 'index.html')))
 }
