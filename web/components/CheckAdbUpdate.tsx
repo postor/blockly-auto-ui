@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 export const CheckAdbUpdate = () => {
   let [loading, setLoading] = useState(true)
   let [working, setWorking] = useState(false)
-  let [adbPath, setAdbPath] = useState('')
+  let adbPath = 'adb'
   let [devices, setDevices] = useState([])
 
   let updateAdb = useCallback(async () => {
@@ -35,7 +35,10 @@ export const CheckAdbUpdate = () => {
           <Alert severity="success">ADB working! </Alert>
           {devices.length
             ? <>
-              <Typography> Choose a device to automate:</Typography>
+              <div className="flex contents-between">
+                <Typography> Choose a device to automate:</Typography>
+                <Button onClick={updateAdb}>Refresh</Button>
+              </div>
               <nav aria-label="secondary mailbox folders">
                 <List>
                   {devices.map(x => <ListItem

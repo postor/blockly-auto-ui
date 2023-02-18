@@ -11,6 +11,7 @@
   "keywords": [],
   "author": "",
   "dependencies": {
+    "@blockly/field-grid-dropdown": "^2.0.7",
     "@fontsource/roboto": "^4.5.8",
     "@mui/icons-material": "^5.11.0",
     "@shack-js/cli": "^1.1.7"

@@ -421,7 +421,10 @@ function getToolBoxCfg() {
             type: "print",
           }, {
             kind: "block",
-            type: "start_pkg",
+            type: "exec",
+          },{
+            kind: "block",
+            type: "my_get_env",
           },
         ],
       },
