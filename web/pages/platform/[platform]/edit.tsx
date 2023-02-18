@@ -2,11 +2,10 @@ import { Box, Button, CircularProgress, Container, Typography } from "@mui/mater
 import { useSearchParams } from "react-router-dom"
 import { BlocklyWorkspace } from 'react-blockly'
 import Blockly from 'blockly'
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import '../../../utils/blockly-editor-custom-blocks'
 import { loadCode, updateCode } from "../../../../apis/android/adb"
 import { javascriptGenerator } from 'blockly/javascript';
-import { useBlocklyWorkspace } from 'react-blockly';
 
 
 javascriptGenerator.addReservedWords('highlightBlock');
@@ -17,27 +16,7 @@ export const Edit = () => {
   let [xml, setXml] = useState('')
   let [js, setJs] = useState('')
   let [loading, setLoading] = useState(true)
-  const blocklyRef = useRef(null);
-  const { workspace, newXml } = useBlocklyWorkspace({
-    ref: blocklyRef,
-    toolboxConfiguration: getToolBoxCfg(), // this must be a JSON toolbox definition
-    initialXml: xml,
-    workspaceConfiguration: {
-      grid: {
-        spacing: 20,
-        length: 3,
-        colour: "#ccc",
-        snap: true,
-      },
-    },
-    onWorkspaceChange: (workspace) => {
-      const code = Blockly.JavaScript.workspaceToCode(workspace);
-      setJs(code);
-    },
-    onImportXmlError:()=>{},
-    onInject:()=>{},
-    onDispose:()=>{},
-  });
+
   useEffect(() => {
     (async () => {
       setXml(await loadCode())
@@ -50,18 +29,39 @@ export const Edit = () => {
     updateCode(xml)
   }, [])
 
-  let execCb = useCallback(() => { }, [workspace])
 
   return <Container>
     <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }} >
       <Typography variant="h2" component="h1" gutterBottom>
         {device}
       </Typography>
-      <Button variant="outlined" onClick={execCb}>RUN</Button>
+      <Button variant="outlined" onClick={() => {
+        let workspace = Blockly.getMainWorkspace()
+        console.log(workspace)
+      }}>RUN</Button>
     </Box>
     {loading
       ? <CircularProgress />
-      : <div ref={blocklyRef} className="blockly-workspace"  />}
+      : <BlocklyWorkspace
+        className="blockly-workspace" // you can use whatever classes are appropriate for your app's CSS
+        toolboxConfiguration={getToolBoxCfg()} // this must be a JSON toolbox definition
+
+        workspaceConfiguration={{
+          grid: {
+            spacing: 20,
+            length: 3,
+            colour: "#ccc",
+            snap: true,
+          },
+        }}
+        initialXml={xml}
+        onXmlChange={setXmlCb}
+        onWorkspaceChange={(workspace) => {
+          const code = Blockly.JavaScript.workspaceToCode(workspace);
+          setJs(code);
+        }}
+
+      />}
     <pre>{js}</pre>
   </Container>
 }
