@@ -1,8 +1,8 @@
 import { loadDB, updateDB } from "../../common/db"
-import { execFile } from 'child_process'
+import { execFile, exec } from 'child_process'
 import { promisify } from 'util'
 
-const pexec = promisify(execFile)
+const pExecFile = promisify(execFile), pExec = promisify(exec)
 
 export const updateAdbTest = async (newAdbPath: string) => {
   if (newAdbPath) {
@@ -14,7 +14,7 @@ export const updateAdbTest = async (newAdbPath: string) => {
     newAdbPath = (await loadDB()).adbPath
   }
   try {
-    let { stdout } = await pexec(newAdbPath, ['devices'])
+    let { stdout } = await pExecFile(newAdbPath, ['devices'])
     // console.log(JSON.stringify(stdout))
     let devices = stdout2devices(stdout)
     return {
@@ -36,6 +36,11 @@ export const updateCode = async (code: string) => {
     androidCode: code
   }))
 }
+
+export const runCommand = async (cmd: string){
+  return (await pExec(cmd)).stdout
+}
+
 
 function stdout2devices(stdout: string) {
   /** 

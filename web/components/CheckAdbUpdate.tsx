@@ -35,10 +35,10 @@ export const CheckAdbUpdate = () => {
           <Alert severity="success">ADB working! </Alert>
           {devices.length
             ? <>
-              <div className="flex contents-between">
+              <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography> Choose a device to automate:</Typography>
-                <Button onClick={updateAdb}>Refresh</Button>
-              </div>
+                <Button variant="outlined" onClick={updateAdb}>Refresh</Button>
+              </Box>
               <nav aria-label="secondary mailbox folders">
                 <List>
                   {devices.map(x => <ListItem
