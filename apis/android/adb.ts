@@ -37,7 +37,7 @@ export const updateCode = async (code: string) => {
   }))
 }
 
-export const runCommand = async (cmd: string){
+export const runCommand = async (cmd: string) => {
   return (await pExec(cmd)).stdout
 }
 

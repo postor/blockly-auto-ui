@@ -4,7 +4,7 @@ import { BlocklyWorkspace } from 'react-blockly'
 import Blockly from 'blockly'
 import { useCallback, useEffect, useState } from "react"
 import '../../../utils/blockly-editor-custom-blocks'
-import { loadCode, updateCode } from "../../../../apis/android/adb"
+import { loadCode, runCommand, updateCode } from "../../../../apis/android/adb"
 import { javascriptGenerator } from 'blockly/javascript';
 
 
@@ -36,8 +36,30 @@ export const Edit = () => {
         {device}
       </Typography>
       <Button variant="outlined" onClick={() => {
-        let workspace = Blockly.getMainWorkspace()
+        let workspace: any = Blockly.getMainWorkspace()
+        let win = window as any
+        win.highlightBlock = (id: string) => {
+          workspace.highlightBlock(id);
+        }
+        win.exec = runCommand
+        win.getEnv = (k: string) => {
+          const env = {
+            device_name: device,
+            platform: 'android'
+          }
+          return env[k]
+        }
+
+        javascriptGenerator.STATEMENT_PREFIX = 'highlightBlock(%1);\n';
+        let code = Blockly.JavaScript.workspaceToCode(workspace);
+        javascriptGenerator.STATEMENT_PREFIX = '';
+        eval(`(async()=>{
+          console.log('code started!',code)
+          ${code}
+          workspace.highlightBlock(-1);
+        })()`)
         console.log(workspace)
+
       }}>RUN</Button>
     </Box>
     {loading
